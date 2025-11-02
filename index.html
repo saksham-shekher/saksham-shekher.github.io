@@ -18,6 +18,9 @@
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
   <script src="https://unpkg.com/scrollreveal" defer></script>
 
+  <!-- Marked.js for markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
   <style>
     /* Patrick Hand font class */
     .patrick-hand-regular { font-family: "Patrick Hand", cursive; font-weight: 400; }
@@ -26,11 +29,11 @@
     :root{
       --bg: #0b0c0d;
       --panel: linear-gradient(120deg,#0f1112,#0b0c0d 50%);
-      --text: #bfc2c6;
-      --muted: #8f9194;
+      --text: #bfc2c6; /* Brighter text for better visibility */
+      --muted: #8f9194; /* Brighter muted text */
       --accent: #00bcd4;
-      --card-bg: #0d0f11; /* deeper black */
-      --card-border: rgba(255,255,255,0.04);
+      --card-bg: #0d0f11;
+      --card-border: rgba(255,255,255,0.08); /* Slightly brighter border */
       --shadow: 0 8px 30px rgba(0,0,0,0.6);
       --radius: 12px;
       --heading-size: 1.05rem;
@@ -45,7 +48,7 @@
       --muted: #555;
       --accent: #0066cc;
       --card-bg: #ffffff;
-      --card-border: rgba(0,0,0,0.06);
+      --card-border: rgba(0,0,0,0.1); /* Darker border for light mode */
       --shadow: 0 8px 30px rgba(0,0,0,0.08);
     }
 
@@ -87,7 +90,28 @@
       position: relative;
       overflow: hidden;
     }
-    .header-inner { text-align:center; width:100%; max-width:320px; }
+    .header-inner { 
+      text-align:center; 
+      width:100%; 
+      max-width:320px;
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .header-inner::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .header-inner::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 3px;
+    }
+
+    .header-inner::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 3px;
+    }
 
     /* Profile picture */
     .profile-pic {
@@ -131,9 +155,11 @@
     .section-2{
       padding: 2rem 2.5rem;
       overflow-x:hidden;
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
     }
 
-    /* Cards (deep black aesthetic) */
+    /* Cards */
     .card{
       background: var(--card-bg);
       border-radius: var(--radius);
@@ -148,6 +174,17 @@
     /* Headings */
     h2{ color:var(--accent); font-size:var(--heading-size); margin:0 0 .6rem 0; display:flex; align-items:center; gap:.6rem; }
     h3{ margin:0 0 .3rem 0; font-size:1rem; color:var(--text); }
+
+    /* Paragraphs and text elements - FIXED VISIBILITY */
+    p, li, .skill-list p, .exp-card ul, .project-body p, .edu-card p, .cert-card p {
+      color: var(--text) !important;
+      margin-bottom: 0.8rem;
+    }
+
+    .exp-card ul li {
+      color: var(--text) !important;
+      margin-bottom: 0.4rem;
+    }
 
     /* small date */
     .date{ font-size:0.8rem; color:var(--accent); }
@@ -189,7 +226,7 @@
       height:140px; 
       object-fit:cover; 
       border-radius:8px; 
-      border:1px solid rgba(255,255,255,0.04); 
+      border:1px solid var(--card-border); 
       transition: transform 0.3s ease;
     }
     .project-card:hover .project-thumb {
@@ -213,7 +250,7 @@
     .project-links a i{ margin-right:6px; }
 
     /* experience list */
-    .exp-card ul{ margin:0.5rem 0 0 1.1rem; padding:0; color:var(--text); }
+    .exp-card ul{ margin:0.5rem 0 0 1.1rem; padding:0; }
 
     /* skills */
     .skill-list p{ margin:6px 0; }
@@ -222,7 +259,7 @@
     .contact-form { display:flex; flex-direction:column; gap:8px; }
     .contact-form label{ font-size:0.85rem; color:var(--muted); }
     .contact-form input, .contact-form textarea{
-      padding:0.6rem; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text);
+      padding:0.6rem; border-radius:8px; border:1px solid var(--card-border); background:transparent; color:var(--text);
       outline:none; font-family:inherit; font-size:0.95rem;
       transition: border-color 0.3s ease;
     }
@@ -416,6 +453,212 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Blog Section Styles */
+    .blog-section {
+      margin-top: 2rem;
+    }
+
+    .blog-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,188,212,0.1);
+      border-color: rgba(0,188,212,0.3);
+    }
+
+    .blog-thumb {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 0.8rem;
+    }
+
+    .blog-title {
+      font-size: 1rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .blog-excerpt {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0 0 0.8rem 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .blog-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .blog-date {
+      color: var(--accent);
+    }
+
+    .blog-read-more {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .blog-read-more:hover {
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
+    /* Blog Modal Styles */
+    .blog-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 12, 13, 0.95);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .blog-modal-content {
+      background: var(--card-bg);
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: var(--radius);
+      max-width: 800px;
+      position: relative;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .close-modal:hover {
+      color: var(--accent);
+    }
+
+    .blog-modal-body {
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .blog-modal-body h1,
+    .blog-modal-body h2,
+    .blog-modal-body h3 {
+      color: var(--accent);
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .blog-modal-body p {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .blog-modal-body code {
+      background: rgba(0,188,212,0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+      color: var(--accent);
+    }
+
+    .blog-modal-body pre {
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .blog-modal-body blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: var(--muted);
+    }
+
+    .blog-modal-body ul,
+    .blog-modal-body ol {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+
+    .blog-modal-body li {
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .blog-modal-body a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .blog-modal-body a:hover {
+      text-decoration: underline;
+    }
+
+    /* Loading states */
+    .blog-loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+    }
+
+    .blog-loading i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .blog-error {
+      text-align: center;
+      padding: 1rem;
+      color: var(--muted);
+      background: rgba(255,0,0,0.1);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,0,0,0.2);
+    }
+
+    /* Ensure all text is visible */
+    .section-2 p,
+    .section-2 li,
+    .section-2 .skill-list p,
+    .section-2 .exp-card ul,
+    .section-2 .project-body p,
+    .section-2 .edu-card p {
+      color: var(--text) !important;
+      opacity: 1 !important;
+    }
   </style>
 </head>
 <body class="patrick-hand-regular">
@@ -425,7 +668,7 @@
 
   <div class="grid-2">
 
-    <!-- LEFT: header panel -->
+    <!-- LEFT: header panel with blog -->
     <header class="section-1" role="banner">
       <div class="header-inner">
         <!-- Profile picture with fallback -->
@@ -441,9 +684,28 @@
           <a href="https://twitter.com/OshekherO" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
           <a href="https://www.linkedin.com/in/oshekher" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
           <a href="https://github.com/saksham-shekher" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://www.instagram.com/oshekhero/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/Oshekher/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://bsky.app/profile/oshekharo.bsky.social" target="_blank" aria-label="Bluesky"><i class="fas fa-cloud"></i></a>
+          <a href="https://t.me/DuskDrifter" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
         </div>
 
         <a class="btn resume-btn" href="resume.pdf" download aria-label="Download Resume"><i class="fas fa-download"></i> Resume</a>
+
+        <!-- Blog Section -->
+        <section class="blog-section" id="blog-section">
+          <h2 style="color: var(--accent); font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-blog"></i> Latest Posts
+          </h2>
+          
+          <!-- Blog posts will be dynamically loaded here -->
+          <div id="blog-posts-container">
+            <div class="blog-loading">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Loading blog posts...</p>
+            </div>
+          </div>
+        </section>
       </div>
     </header>
 
@@ -660,6 +922,14 @@
     </main>
   </div>
 
+  <!-- Blog Modal -->
+  <div id="blog-modal" class="blog-modal">
+    <div class="blog-modal-content">
+      <span class="close-modal">&times;</span>
+      <div id="blog-modal-body" class="blog-modal-body"></div>
+    </div>
+  </div>
+
   <button id="top-btn" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <footer class="site-footer" role="contentinfo">
@@ -667,6 +937,19 @@
   </footer>
 
   <script>
+    // Blog configuration
+    const BLOG_CONFIG = {
+      basePath: '/blog/',
+      fileExtension: '.md',
+      // List of blog post files in your /blog/ directory
+      postFiles: [
+        'first-blog.md',
+        'getting-started-with-cloudflare-workers.md',
+        'building-modern-css-framework.md',
+        'python-web-scraping-guide.md'
+      ]
+    };
+
     // ---- Theme persistence ----
     const body = document.body;
     const toggleBtn = document.getElementById('theme-toggle');
@@ -806,7 +1089,222 @@
           parentCard.appendChild(errorMsg);
         });
       });
+
+      // ---- Blog Functionality ----
+      loadBlogPosts();
+      setupBlogModal();
     });
+
+    // Load blog posts from markdown files
+    async function loadBlogPosts() {
+      const container = document.getElementById('blog-posts-container');
+      
+      try {
+        const posts = [];
+        
+        // Load each blog post file
+        for (const fileName of BLOG_CONFIG.postFiles) {
+          try {
+            const response = await fetch(`${BLOG_CONFIG.basePath}${fileName}`);
+            
+            if (!response.ok) {
+              console.warn(`Could not load blog post: ${fileName}`);
+              continue;
+            }
+            
+            const markdownContent = await response.text();
+            const postData = parseMarkdownFrontmatter(markdownContent, fileName);
+            
+            if (postData) {
+              posts.push(postData);
+            }
+          } catch (error) {
+            console.error(`Error loading ${fileName}:`, error);
+          }
+        }
+        
+        // Sort posts by date (newest first)
+        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Render posts
+        if (posts.length > 0) {
+          renderBlogPosts(posts);
+        } else {
+          container.innerHTML = `
+            <div class="blog-error">
+              <i class="fas fa-exclamation-circle"></i>
+              <p>No blog posts found. Check the /blog/ directory.</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+        container.innerHTML = `
+          <div class="blog-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Error loading blog posts. Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Parse markdown frontmatter and extract metadata
+    function parseMarkdownFrontmatter(markdown, fileName) {
+      // Simple frontmatter parser (supports YAML-like format)
+      const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+      const match = markdown.match(frontmatterRegex);
+      
+      let metadata = {
+        title: fileName.replace('.md', '').replace(/-/g, ' '),
+        excerpt: 'Read more...',
+        date: new Date().toISOString().split('T')[0],
+        fileName: fileName,
+        content: markdown
+      };
+      
+      if (match) {
+        const frontmatter = match[1];
+        metadata.content = match[2];
+        
+        // Parse frontmatter lines
+        const lines = frontmatter.split('\n');
+        lines.forEach(line => {
+          const [key, ...valueParts] = line.split(':');
+          if (key && valueParts.length) {
+            const value = valueParts.join(':').trim();
+            switch(key.trim()) {
+              case 'title':
+                metadata.title = value;
+                break;
+              case 'excerpt':
+                metadata.excerpt = value;
+                break;
+              case 'date':
+                metadata.date = value;
+                break;
+              case 'tags':
+                metadata.tags = value.split(',').map(tag => tag.trim());
+                break;
+            }
+          }
+        });
+      }
+      
+      // Generate excerpt from content if not provided
+      if (metadata.excerpt === 'Read more...' && metadata.content) {
+        const plainText = metadata.content.replace(/[#*`]/g, '').substring(0, 150);
+        metadata.excerpt = plainText + (plainText.length === 150 ? '...' : '');
+      }
+      
+      return metadata;
+    }
+
+    // Render blog posts
+    function renderBlogPosts(posts) {
+      const container = document.getElementById('blog-posts-container');
+      container.innerHTML = '';
+      
+      posts.forEach(post => {
+        const blogCard = document.createElement('div');
+        blogCard.className = 'blog-card';
+        blogCard.setAttribute('data-post-file', post.fileName);
+        
+        // Create blog image placeholder
+        const imageHtml = `
+          <div class="placeholder-img" style="height: 120px;">
+            <i class="fas fa-newspaper"></i>
+            <span>Blog Post</span>
+          </div>
+        `;
+        
+        // Format date
+        const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+        
+        blogCard.innerHTML = `
+          ${imageHtml}
+          <h3 class="blog-title">${post.title}</h3>
+          <p class="blog-excerpt">${post.excerpt}</p>
+          <div class="blog-meta">
+            <span class="blog-date">${formattedDate}</span>
+            <a href="#" class="blog-read-more" data-post-file="${post.fileName}">
+              Read more <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        `;
+        
+        container.appendChild(blogCard);
+      });
+    }
+
+    // Setup blog modal functionality
+    function setupBlogModal() {
+      const modal = document.getElementById('blog-modal');
+      const closeBtn = document.querySelector('.close-modal');
+      const modalBody = document.getElementById('blog-modal-body');
+      
+      // Close modal when clicking X
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+      
+      // Close modal when clicking outside content
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // Open modal when clicking blog cards or read more links
+      document.addEventListener('click', async (e) => {
+        let postFile;
+        
+        if (e.target.closest('.blog-card')) {
+          postFile = e.target.closest('.blog-card').getAttribute('data-post-file');
+        } else if (e.target.closest('.blog-read-more')) {
+          e.preventDefault();
+          postFile = e.target.closest('.blog-read-more').getAttribute('data-post-file');
+        }
+        
+        if (postFile) {
+          try {
+            modalBody.innerHTML = `
+              <div class="blog-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading post...</p>
+              </div>
+            `;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Load the markdown file
+            const response = await fetch(`${BLOG_CONFIG.basePath}${postFile}`);
+            if (!response.ok) throw new Error('Failed to load post');
+            
+            const markdownContent = await response.text();
+            const postData = parseMarkdownFrontmatter(markdownContent, postFile);
+            
+            // Parse markdown to HTML
+            const htmlContent = marked.parse(postData.content);
+            modalBody.innerHTML = htmlContent;
+            
+          } catch (error) {
+            console.error('Error loading blog post:', error);
+            modalBody.innerHTML = `
+              <div class="blog-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Error loading blog post. Please try again later.</p>
+              </div>
+            `;
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
