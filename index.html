@@ -348,6 +348,74 @@
     @media (max-width:620px){
       .placeholder-img { height: 120px; }
     }
+    
+    /* GitHub Stats Section */
+    .github-stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .github-stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .github-stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,188,212,0.1);
+    }
+    
+    .stat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .stat-header i {
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    
+    .stat-title {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--text);
+    }
+    
+    .github-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    
+    .github-streak-img, .github-stats-img {
+      width: 100%;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    
+    .github-streak-img:hover, .github-stats-img:hover {
+      transform: scale(1.02);
+    }
+    
+    .stats-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .github-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body class="patrick-hand-regular">
@@ -392,6 +460,54 @@
           Learning approach: prototype quickly → test with real APIs → publish & iterate.  I contribute to
           open-source experiments and write short technical notes while practicing full-stack projects.
         </p>
+      </section>
+
+      <!-- GitHub Stats Section -->
+      <section id="github-stats" class="block">
+        <h2><i class="fab fa-github"></i> GitHub Statistics</h2>
+        <div class="github-stats-grid">
+          <article class="github-stat-card">
+            <div class="stat-header">
+              <i class="fas fa-fire"></i>
+              <h3 class="stat-title">GitHub Streak</h3>
+            </div>
+            <img 
+              src="https://github-readme-streak-stats.herokuapp.com/?user=OshekharO&theme=vision-friendly-dark&hide_border=false" 
+              alt="GitHub Streak Stats" 
+              class="github-streak-img"
+              loading="lazy"
+            >
+            <p class="stats-note">Current contribution streak and activity</p>
+          </article>
+          
+          <article class="github-stat-card">
+            <div class="stat-header">
+              <i class="fas fa-chart-bar"></i>
+              <h3 class="stat-title">GitHub Stats</h3>
+            </div>
+            <img 
+              src="https://github-readme-stats.vercel.app/api?username=OshekharO&show_icons=true&theme=vision-friendly-dark&hide_border=false" 
+              alt="GitHub Stats" 
+              class="github-stats-img"
+              loading="lazy"
+            >
+            <p class="stats-note">Overall GitHub profile statistics</p>
+          </article>
+          
+          <article class="github-stat-card">
+            <div class="stat-header">
+              <i class="fas fa-code"></i>
+              <h3 class="stat-title">Top Languages</h3>
+            </div>
+            <img 
+              src="https://github-readme-stats.vercel.app/api/top-langs/?username=OshekharO&layout=compact&theme=vision-friendly-dark&hide_border=false" 
+              alt="Top Languages" 
+              class="github-stats-img"
+              loading="lazy"
+            >
+            <p class="stats-note">Most used programming languages</p>
+          </article>
+        </div>
       </section>
 
       <section id="experience" class="block">
@@ -570,7 +686,27 @@
       const isLight = body.classList.toggle('light-mode');
       localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
       toggleIcon.className = isLight ? 'fas fa-moon' : 'fas fa-sun';
+      
+      // Update GitHub stats images for theme
+      updateGitHubStatsTheme(isLight);
     });
+
+    // Function to update GitHub stats theme
+    function updateGitHubStatsTheme(isLight) {
+      const theme = isLight ? 'default' : 'vision-friendly-dark';
+      
+      // Update streak stats
+      const streakImg = document.querySelector('.github-streak-img');
+      streakImg.src = `https://github-readme-streak-stats.herokuapp.com/?user=OshekharO&theme=${theme}&hide_border=false`;
+      
+      // Update general stats
+      const statsImg = document.querySelectorAll('.github-stats-img')[0];
+      statsImg.src = `https://github-readme-stats.vercel.app/api?username=OshekharO&show_icons=true&theme=${theme}&hide_border=false`;
+      
+      // Update top languages
+      const langImg = document.querySelectorAll('.github-stats-img')[1];
+      langImg.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=OshekharO&layout=compact&theme=${theme}&hide_border=false`;
+    }
 
     // ---- Typed.js intro ----
     document.addEventListener('DOMContentLoaded', () => {
@@ -587,7 +723,7 @@
 
       // ---- ScrollReveal for cards ----
       if (window.ScrollReveal) {
-        ScrollReveal().reveal('.card, .project-card', {
+        ScrollReveal().reveal('.card, .project-card, .github-stat-card', {
           distance: '24px',
           duration: 700,
           easing: 'cubic-bezier(.2,.8,.2,1)',
@@ -651,6 +787,23 @@
           placeholder.className = 'placeholder-img';
           placeholder.innerHTML = '<i class="fas fa-image"></i><span>Project Preview</span>';
           this.parentNode.insertBefore(placeholder, this);
+        });
+      });
+      
+      // ---- GitHub Stats Loading ----
+      const githubImages = document.querySelectorAll('.github-streak-img, .github-stats-img');
+      githubImages.forEach(img => {
+        img.addEventListener('load', function() {
+          this.style.opacity = '1';
+        });
+        
+        img.addEventListener('error', function() {
+          const parentCard = this.closest('.github-stat-card');
+          const errorMsg = document.createElement('p');
+          errorMsg.textContent = 'GitHub stats temporarily unavailable';
+          errorMsg.style.color = 'var(--muted)';
+          errorMsg.style.textAlign = 'center';
+          parentCard.appendChild(errorMsg);
         });
       });
     });
