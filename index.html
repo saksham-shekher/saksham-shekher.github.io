@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Saksham Shekher — Analyst & Python Programmer</title>
   <meta name="description" content="Saksham Shekher - MCA student specializing in web development, Python programming, cloud technologies. Explore projects, experience, and open-source contributions." />
-  <meta name="keywords" content="web developer, python programmer, cloud developer, portfolio, open source contributor, MCA student" />
+  <meta name="keywords" content="web developer, python programmer, cloud developer, portfolio, open source contributor, MCA student, analyst" />
   <meta name="author" content="Saksham Shekher" />
   
   <!-- Open Graph / Social Media -->
@@ -42,6 +42,10 @@
     "worksFor": {
       "@type": "Organization",
       "name": "Open Source Contributor"
+    },
+    "memberOf": {
+      "@type": "Organization",
+      "name": "International Association of Engineers (IAENG)"
     }
   }
   </script>
@@ -192,7 +196,7 @@
     .date{ font-size:0.8rem; color:var(--accent); }
 
     /* grids */
-    .edu-grid, .projects, .cert-grid{
+    .edu-grid, .projects, .cert-grid, .org-grid{
       display:grid;
       gap:1rem;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -455,6 +459,41 @@
         grid-template-columns: 1fr;
       }
     }
+    
+    /* Organization card styling */
+    .org-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    
+    .org-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(0,188,212,0.1), rgba(0,188,212,0.05));
+      border: 1px solid rgba(0,188,212,0.2);
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+    
+    .org-details {
+      flex: 1;
+    }
+    
+    .org-role {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    
+    .org-duration {
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
   </style>
 </head>
 <body class="patrick-hand-regular">
@@ -659,6 +698,13 @@
         <h2><i class="fas fa-certificate"></i> Certifications</h2>
         <div class="cert-grid">
           <article class="card cert-card">
+            <h3>Gemini Certified University Student</h3>
+            <p>Google AI certification for university students</p>
+            <a href="https://edu.google.accredible.com/8946aebd-cd70-4719-b1ae-5edf26c57077" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
+          </article>
+          <article class="card cert-card">
             <h3>Google IT Support Specialization</h3>
             <a href="https://www.coursera.org/account/accomplishments/specialization/1LMKMYY629VA" target="_blank" class="cert-link">
               <i class="fas fa-external-link-alt"></i> View Certificate
@@ -675,6 +721,23 @@
             <a href="https://courses.opencv.org/certificates/21da07aa2600489d8ab36d198c85b83a" target="_blank" class="cert-link">
               <i class="fas fa-external-link-alt"></i> View Certificate
             </a>
+          </article>
+        </div>
+      </section>
+
+      <!-- New Organizations Section -->
+      <section id="organizations" class="block">
+        <h2><i class="fas fa-users"></i> Professional Organizations</h2>
+        <div class="org-grid">
+          <article class="card org-card">
+            <div class="org-logo">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="org-details">
+              <h3>International Association of Engineers (IAENG)</h3>
+              <p class="org-role">Student Member</p>
+              <time class="org-duration">Since 31/10/2025 to present</time>
+            </div>
           </article>
         </div>
       </section>
@@ -755,7 +818,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       if (window.Typed) {
         new Typed('#typed-text', {
-          strings: ['Web Developer', 'Python Programmer', 'Cloud Explorer', 'Open-Source Contributor'],
+          strings: ['Analyst', 'Python Programmer', 'Cloud Explorer', 'Open-Source Contributor'],
           typeSpeed: 55,
           backSpeed: 30,
           backDelay: 1400,
@@ -766,7 +829,7 @@
 
       // ---- ScrollReveal for cards ----
       if (window.ScrollReveal) {
-        ScrollReveal().reveal('.card, .project-card, .github-stat-card', {
+        ScrollReveal().reveal('.card, .project-card, .github-stat-card, .org-card', {
           distance: '24px',
           duration: 700,
           easing: 'cubic-bezier(.2,.8,.2,1)',
