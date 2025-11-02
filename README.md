@@ -1,4 +1,4 @@
-# 🌐 Saksham Shekher — Developer Portfolio
+# 🌐 Developer Portfolio
 
 A modern, responsive **personal portfolio website** built with pure **HTML, CSS, and JavaScript** — featuring dark/light mode, smooth animations, and interactive sections for projects, education, and contact.
 
