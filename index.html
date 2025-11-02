@@ -14,12 +14,341 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css">
-
   <!-- Typed.js & ScrollReveal (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
   <script src="https://unpkg.com/scrollreveal" defer></script>
+
+  <style>
+    /* Patrick Hand font class */
+    .patrick-hand-regular { font-family: "Patrick Hand", cursive; font-weight: 400; }
+
+    /* CSS variables (dark mode default) */
+    :root{
+      --bg: #0b0c0d;
+      --panel: linear-gradient(120deg,#0f1112,#0b0c0d 50%);
+      --text: #bfc2c6;
+      --muted: #8f9194;
+      --accent: #00bcd4;
+      --card-bg: #0d0f11; /* deeper black */
+      --card-border: rgba(255,255,255,0.04);
+      --shadow: 0 8px 30px rgba(0,0,0,0.6);
+      --radius: 12px;
+      --heading-size: 1.05rem;
+      --base-size: 0.95rem;
+    }
+
+    /* Light mode overrides */
+    body.light-mode {
+      --bg: #f7f9fc;
+      --panel: linear-gradient(120deg,#f8fafc,#eef3fb);
+      --text: #222;
+      --muted: #555;
+      --accent: #0066cc;
+      --card-bg: #ffffff;
+      --card-border: rgba(0,0,0,0.06);
+      --shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    /* Global */
+    * { box-sizing: border-box; }
+    html,body { height:100%; margin:0; }
+    body {
+      font-family: 'Patrick Hand', cursive;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      font-size: var(--base-size);
+    }
+
+    /* Layout grid */
+    .grid-2{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 0;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* For smaller screens, stack */
+    @media (max-width:920px){
+      .grid-2{ grid-template-columns: 1fr; }
+    }
+
+    /* Left header panel */
+    .section-1{
+      padding: 2.2rem 1.2rem;
+      background: var(--panel);
+      background-size: 300% 300%;
+      animation: moveGradient 18s linear infinite;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-inner { text-align:center; width:100%; max-width:320px; }
+
+    /* Profile picture */
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      margin: 0 auto 1rem;
+      display: block;
+      background: linear-gradient(45deg, var(--accent), #0b0c0d);
+    }
+
+    /* Name & typed */
+    .name{ font-size:1.4rem; margin:6px 0; color:var(--text); }
+    .typed-wrap { display:block; margin:6px 0 10px; color:var(--muted); font-size:0.95rem; min-height: 1.5rem; }
+
+    /* icons & small text */
+    .location { color:var(--muted); font-size:0.9rem; margin:8px 0; }
+    .social-links a{ color:var(--text); margin:0 6px; font-size:1.2rem; transition:0.2s; }
+    .social-links a:hover{ color:var(--accent); transform:translateY(-2px); }
+
+    /* Resume button */
+    .btn { 
+      border-radius:10px; 
+      padding:0.45rem 0.9rem; 
+      border:1px solid var(--accent); 
+      color:var(--accent); 
+      background:transparent; 
+      cursor:pointer; 
+      display:inline-flex; 
+      gap:0.5rem; 
+      align-items:center; 
+      font-size:0.85rem; 
+      text-decoration:none; 
+      transition: all 0.3s ease;
+    }
+    .btn:hover{ background:var(--accent); color:#081217; transform: translateY(-2px); }
+
+    /* Right content panel */
+    .section-2{
+      padding: 2rem 2.5rem;
+      overflow-x:hidden;
+    }
+
+    /* Cards (deep black aesthetic) */
+    .card{
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      padding: 1.1rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.1rem;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow: 0 14px 40px rgba(0,188,212,0.12); }
+
+    /* Headings */
+    h2{ color:var(--accent); font-size:var(--heading-size); margin:0 0 .6rem 0; display:flex; align-items:center; gap:.6rem; }
+    h3{ margin:0 0 .3rem 0; font-size:1rem; color:var(--text); }
+
+    /* small date */
+    .date{ font-size:0.8rem; color:var(--accent); }
+
+    /* grids */
+    .edu-grid, .projects, .cert-grid{
+      display:grid;
+      gap:1rem;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+
+    /* Theme Toggle */
+    #theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 18px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      background: var(--card-bg);
+      color: var(--accent);
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    #theme-toggle:hover {
+      background: var(--accent);
+      color: #000;
+      transform: scale(1.1);
+    }
+
+    /* project card specifics */
+    .project-card{ display:flex; flex-direction:column; gap:.6rem; }
+    .project-thumb{ 
+      width:100%; 
+      height:140px; 
+      object-fit:cover; 
+      border-radius:8px; 
+      border:1px solid rgba(255,255,255,0.04); 
+      transition: transform 0.3s ease;
+    }
+    .project-card:hover .project-thumb {
+      transform: scale(1.02);
+    }
+    .project-body{ padding:0; }
+    .tags{ margin: 6px 0; display:flex; flex-wrap:wrap; gap:6px; }
+    .tags span{ background: rgba(0,188,212,0.08); color:var(--accent); padding:4px 8px; border-radius:8px; font-size:0.78rem; }
+
+    /* project links row */
+    .project-links a{ 
+      margin-right:0.8rem; 
+      color:var(--muted); 
+      font-size:0.9rem; 
+      text-decoration:none; 
+      transition: color 0.2s ease;
+    }
+    .project-links a:hover {
+      color: var(--accent);
+    }
+    .project-links a i{ margin-right:6px; }
+
+    /* experience list */
+    .exp-card ul{ margin:0.5rem 0 0 1.1rem; padding:0; color:var(--text); }
+
+    /* skills */
+    .skill-list p{ margin:6px 0; }
+
+    /* contact form */
+    .contact-form { display:flex; flex-direction:column; gap:8px; }
+    .contact-form label{ font-size:0.85rem; color:var(--muted); }
+    .contact-form input, .contact-form textarea{
+      padding:0.6rem; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text);
+      outline:none; font-family:inherit; font-size:0.95rem;
+      transition: border-color 0.3s ease;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      border-color: var(--accent);
+    }
+    body.light-mode .contact-form input, body.light-mode .contact-form textarea { border:1px solid rgba(0,0,0,0.08); background:#fff; color:var(--text); }
+
+    /* submit */
+    .submit-btn{ align-self:flex-start; }
+
+    /* back to top */
+    #top-btn{
+      position:fixed; 
+      right:20px; 
+      bottom:18px; 
+      width:42px; 
+      height:42px; 
+      border-radius:50%; 
+      border:none; 
+      background:var(--accent); 
+      color:#081217; 
+      display:none; 
+      align-items:center; 
+      justify-content:center; 
+      cursor:pointer; 
+      box-shadow:0 10px 30px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      z-index: 99;
+    }
+    #top-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+    }
+
+    /* footer */
+    .site-footer{ text-align:center; padding:14px; color:var(--muted); font-size:0.85rem; }
+
+    /* small screens adjustments */
+    @media (max-width:620px){
+      .profile-pic{ width:86px; height:86px; }
+      .grid-2{ grid-template-columns: 1fr; }
+      .section-2{ padding:1.2rem; }
+      .project-thumb{ height:120px; }
+    }
+
+    /* subtle animated gradient */
+    @keyframes moveGradient{
+      0%{ background-position:0% 50%;}
+      50%{ background-position:100% 50%;}
+      100%{ background-position:0% 50%;}
+    }
+
+    /* Loading animation for images */
+    .loading {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Focus styles for accessibility */
+    button:focus, a:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Print styles */
+    @media print {
+      #theme-toggle, #top-btn {
+        display: none !important;
+      }
+    }
+    
+    /* Certificate links with icons */
+    .cert-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 8px;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+    
+    .cert-link:hover {
+      color: var(--text);
+      transform: translateX(3px);
+    }
+    
+    .cert-link i {
+      font-size: 0.8rem;
+    }
+    
+    /* Placeholder images */
+    .placeholder-img {
+      width: 100%;
+      height: 140px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(0,188,212,0.1), rgba(0,188,212,0.05));
+      border: 1px dashed rgba(0,188,212,0.3);
+      color: var(--accent);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 10px;
+    }
+    
+    .placeholder-img i {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      opacity: 0.7;
+    }
+    
+    @media (max-width:620px){
+      .placeholder-img { height: 120px; }
+    }
+  </style>
 </head>
 <body class="patrick-hand-regular">
 
@@ -31,8 +360,11 @@
     <!-- LEFT: header panel -->
     <header class="section-1" role="banner">
       <div class="header-inner">
-
-        <i class="fas fa-code fa-4x white" aria-hidden="true"></i>
+        <!-- Profile picture with fallback -->
+        <div class="profile-pic loading" id="profile-pic">
+          <i class="fas fa-user fa-3x" style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--accent);"></i>
+        </div>
+        
         <h1 class="name">Saksham Shekher</h1>
         <div class="typed-wrap"><span id="typed-text" aria-hidden="true"></span></div>
         <p class="location"><i class="fas fa-map-marker-alt"></i> Patna, India</p>
@@ -52,9 +384,9 @@
       <section id="about" class="block card" aria-labelledby="about-heading">
         <h2 id="about-heading"><i class="fas fa-user"></i> About</h2>
         <p>
-          I’m an <strong>MCA student</strong> focused on web development, Python, and cloud technologies.
+          I'm an <strong>MCA student</strong> focused on web development, Python, and cloud technologies.
           I build responsive, API-integrated applications and enjoy creating minimal, usable interfaces.
-          I’m currently exploring serverless architecture, DevOps basics, and AI-assisted web tooling.
+          I'm currently exploring serverless architecture, DevOps basics, and AI-assisted web tooling.
         </p>
         <p>
           Learning approach: prototype quickly → test with real APIs → publish & iterate.  I contribute to
@@ -108,7 +440,10 @@
         <div class="projects">
           <!-- Project 1 -->
           <article class="project-card card">
-            <img class="project-thumb" src="assets/neubrutalism-thumb.png" alt="Neubrutalism CSS preview" loading="lazy">
+            <div class="placeholder-img">
+              <i class="fas fa-palette"></i>
+              <span>Neubrutalism CSS Preview</span>
+            </div>
             <div class="project-body">
               <h3>Neubrutalism CSS</h3>
               <p>Reusable CSS library inspired by brutalist/neubrutalist design for quick UI building.</p>
@@ -117,14 +452,17 @@
               </div>
               <div class="project-links">
                 <a href="https://neubrutalism.dpdns.org/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
-                <a href="https://github.com/OshekharO" target="_blank"><i class="fab fa-github"></i> Code</a>
+                <a href="https://github.com/saksham-shekher/neubrutalism-css" target="_blank"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
 
           <!-- Project 2 -->
           <article class="project-card card">
-            <img class="project-thumb" src="assets/indexer-thumb.png" alt="Web Indexer preview" loading="lazy">
+            <div class="placeholder-img">
+              <i class="fas fa-search"></i>
+              <span>Web Indexer Preview</span>
+            </div>
             <div class="project-body">
               <h3>Web Indexer</h3>
               <p>Fast web indexing demo using Cloudflare Workers and JavaScript.</p>
@@ -133,14 +471,17 @@
               </div>
               <div class="project-links">
                 <a href="https://indexer.is-an.app/" target="_blank"><i class="fas fa-external-link-alt"></i> Live</a>
-                <a href="https://github.com/OshekharO" target="_blank"><i class="fab fa-github"></i> Repo</a>
+                <a href="https://github.com/saksham-shekher/web-indexer" target="_blank"><i class="fab fa-github"></i> Repo</a>
               </div>
             </div>
           </article>
 
           <!-- Project 3 -->
           <article class="project-card card">
-            <img class="project-thumb" src="assets/workers-blog-thumb.png" alt="Cloudflare Workers Blog preview" loading="lazy">
+            <div class="placeholder-img">
+              <i class="fas fa-blog"></i>
+              <span>Cloudflare Workers Blog</span>
+            </div>
             <div class="project-body">
               <h3>Cloudflare Workers Blog</h3>
               <p>AI-assisted developer blog deployed to Cloudflare Workers (edge runtime).</p>
@@ -148,7 +489,7 @@
                 <span>Edge</span><span>AI</span><span>JS</span>
               </div>
               <div class="project-links">
-                <a href="https://github.com/OshekharO/Cloudflare-Workers-Blog" target="_blank"><i class="fab fa-github"></i> Repo</a>
+                <a href="https://github.com/saksham-shekher/Cloudflare-Workers-Blog" target="_blank"><i class="fab fa-github"></i> Repo</a>
               </div>
             </div>
           </article>
@@ -160,15 +501,21 @@
         <div class="cert-grid">
           <article class="card cert-card">
             <h3>Google IT Support Specialization</h3>
-            <a href="https://www.coursera.org/account/accomplishments/specialization/1LMKMYY629VA" target="_blank">View Certificate</a>
+            <a href="https://www.coursera.org/account/accomplishments/specialization/1LMKMYY629VA" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
           </article>
           <article class="card cert-card">
             <h3>Python for Beginners</h3>
-            <a href="https://api.badgr.io/public/assertions/9uY8JQO1SlWHpN7tUTy_8A" target="_blank">View Certificate</a>
+            <a href="https://api.badgr.io/public/assertions/9uY8JQO1SlWHpN7tUTy_8A" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
           </article>
           <article class="card cert-card">
             <h3>Postman API Fundamentals</h3>
-            <a href="https://courses.opencv.org/certificates/21da07aa2600489d8ab36d198c85b83a" target="_blank">View Certificate</a>
+            <a href="https://courses.opencv.org/certificates/21da07aa2600489d8ab36d198c85b83a" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
           </article>
         </div>
       </section>
@@ -203,7 +550,110 @@
     <p>© 2025 Saksham Shekher</p>
   </footer>
 
-  <!-- main script -->
-  <script src="script.js" defer></script>
+  <script>
+    // ---- Theme persistence ----
+    const body = document.body;
+    const toggleBtn = document.getElementById('theme-toggle');
+    const toggleIcon = toggleBtn.querySelector('i');
+
+    // initialize theme from localStorage
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+      toggleIcon.className = 'fas fa-moon';
+    } else {
+      toggleIcon.className = 'fas fa-sun';
+    }
+
+    // toggle handler
+    toggleBtn.addEventListener('click', () => {
+      const isLight = body.classList.toggle('light-mode');
+      localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
+      toggleIcon.className = isLight ? 'fas fa-moon' : 'fas fa-sun';
+    });
+
+    // ---- Typed.js intro ----
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.Typed) {
+        new Typed('#typed-text', {
+          strings: ['Web Developer', 'Python Programmer', 'Cloud Explorer', 'Open-Source Contributor'],
+          typeSpeed: 55,
+          backSpeed: 30,
+          backDelay: 1400,
+          startDelay: 300,
+          loop: true
+        });
+      }
+
+      // ---- ScrollReveal for cards ----
+      if (window.ScrollReveal) {
+        ScrollReveal().reveal('.card, .project-card', {
+          distance: '24px',
+          duration: 700,
+          easing: 'cubic-bezier(.2,.8,.2,1)',
+          origin: 'bottom',
+          interval: 80,
+          reset: false
+        });
+      }
+
+      // ---- Back to top button ----
+      const topBtn = document.getElementById('top-btn');
+      window.addEventListener('scroll', () => {
+        topBtn.classList.toggle('show', window.scrollY > 320);
+        topBtn.style.display = window.scrollY > 320 ? 'flex' : 'none';
+      });
+      topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      // ---- Formspree form handling (tiny UX) ----
+      const form = document.getElementById('contact-form');
+      const note = document.querySelector('.form-note');
+      form.addEventListener('submit', (e) => {
+        // Let Formspree handle the submission — but provide UX feedback:
+        note.textContent = 'Sending…';
+        // After submit, Formspree will redirect or show result. Use the fetch approach to give inline feedback:
+        e.preventDefault();
+        const data = new FormData(form);
+        fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        }).then(response => {
+          if (response.ok) {
+            note.textContent = 'Thanks! Message sent.';
+            form.reset();
+          } else {
+            response.json().then(data => {
+              note.textContent = data.error || 'Oops — there was a problem. Try again later.';
+            }).catch(() => {
+              note.textContent = 'Oops — there was a problem. Try again later.';
+            });
+          }
+        }).catch(() => {
+          note.textContent = 'Network error. Please try again.';
+        });
+      });
+
+      // ---- Profile picture loading ----
+      const profilePic = document.getElementById('profile-pic');
+      // In a real implementation, you would load an actual image here
+      // For now, we'll simulate loading completion
+      setTimeout(() => {
+        profilePic.classList.remove('loading');
+        profilePic.innerHTML = '<i class="fas fa-user fa-3x" style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--accent);"></i>';
+      }, 1000);
+      
+      // ---- Image error handling ----
+      document.querySelectorAll('.project-thumb').forEach(img => {
+        img.addEventListener('error', function() {
+          this.style.display = 'none';
+          const placeholder = document.createElement('div');
+          placeholder.className = 'placeholder-img';
+          placeholder.innerHTML = '<i class="fas fa-image"></i><span>Project Preview</span>';
+          this.parentNode.insertBefore(placeholder, this);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
