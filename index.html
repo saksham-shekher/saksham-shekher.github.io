@@ -143,7 +143,11 @@
       position: relative;
       overflow: hidden;
     }
-    .header-inner { text-align:center; width:100%; max-width:320px; }
+    .header-inner { 
+      text-align:center; 
+      width:100%; 
+      max-width:320px; 
+    }
 
     /* Profile picture */
     .profile-pic {
@@ -155,16 +159,149 @@
       margin: 0 auto 1rem;
       display: block;
       background: linear-gradient(45deg, var(--accent), #0b0c0d);
+      transition: all 0.3s ease;
+    }
+    
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0,188,212,0.4);
     }
 
     /* Name & typed */
-    .name{ font-size:1.4rem; margin:6px 0; color:var(--text); }
-    .typed-wrap { display:block; margin:6px 0 10px; color:var(--muted); font-size:0.95rem; min-height: 1.5rem; }
+    .name{ 
+      font-size:1.4rem; 
+      margin:6px 0; 
+      color:var(--text); 
+    }
+    .typed-wrap { 
+      display:block; 
+      margin:6px 0 10px; 
+      color:var(--muted); 
+      font-size:0.95rem; 
+      min-height: 1.5rem; 
+    }
 
     /* icons & small text */
-    .location { color:var(--muted); font-size:0.9rem; margin:8px 0; }
-    .social-links a{ color:var(--text); margin:0 6px; font-size:1.2rem; transition:0.2s; }
-    .social-links a:hover{ color:var(--accent); transform:translateY(-2px); }
+    .location { 
+      color:var(--muted); 
+      font-size:0.9rem; 
+      margin:8px 0; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .social-links { 
+      margin: 1rem 0;
+    }
+    .social-links a{ 
+      color:var(--text); 
+      margin:0 6px; 
+      font-size:1.2rem; 
+      transition:0.3s ease; 
+      display: inline-block;
+    }
+    .social-links a:hover{ 
+      color:var(--accent); 
+      transform:translateY(-3px) scale(1.2);
+    }
+
+    /* Quick Stats */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: rgba(0,188,212,0.05);
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,188,212,0.1);
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--accent);
+      line-height: 1;
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Tech Stack */
+    .tech-stack {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    
+    .tech-stack h3 {
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    
+    .tech-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .tech-icons i {
+      font-size: 1.8rem;
+      color: var(--text);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .tech-icons i:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* Current Focus */
+    .current-focus {
+      margin: 1.5rem 0;
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0,188,212,0.03);
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,188,212,0.08);
+    }
+    
+    .current-focus h3 {
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    
+    .current-focus p {
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      color: var(--text);
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 3px;
+      transition: width 1s ease-in-out;
+    }
 
     /* Resume button */
     .btn { 
@@ -180,8 +317,14 @@
       font-size:0.85rem; 
       text-decoration:none; 
       transition: all 0.3s ease;
+      margin-top: 1rem;
     }
-    .btn:hover{ background:var(--accent); color:#081217; transform: translateY(-2px); }
+    .btn:hover{ 
+      background:var(--accent); 
+      color:#081217; 
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,188,212,0.3);
+    }
 
     /* Right content panel */
     .section-2{
@@ -199,11 +342,25 @@
       margin-bottom: 1.1rem;
       transition: transform .22s ease, box-shadow .22s ease;
     }
-    .card:hover{ transform: translateY(-6px); box-shadow: 0 14px 40px rgba(0,188,212,0.12); }
+    .card:hover{ 
+      transform: translateY(-6px); 
+      box-shadow: 0 14px 40px rgba(0,188,212,0.12);
+    }
 
     /* Headings */
-    h2{ color:var(--accent); font-size:var(--heading-size); margin:0 0 .6rem 0; display:flex; align-items:center; gap:.6rem; }
-    h3{ margin:0 0 .3rem 0; font-size:1rem; color:var(--text); }
+    h2{ 
+      color:var(--accent); 
+      font-size:var(--heading-size); 
+      margin:0 0 .6rem 0; 
+      display:flex; 
+      align-items:center; 
+      gap:.6rem; 
+    }
+    h3{ 
+      margin:0 0 .3rem 0; 
+      font-size:1rem; 
+      color:var(--text); 
+    }
 
     /* small date */
     .date{ font-size:0.8rem; color:var(--accent); }
@@ -253,7 +410,19 @@
     }
     .project-body{ padding:0; }
     .tags{ margin: 6px 0; display:flex; flex-wrap:wrap; gap:6px; }
-    .tags span{ background: rgba(0,188,212,0.08); color:var(--accent); padding:4px 8px; border-radius:8px; font-size:0.78rem; }
+    .tags span{ 
+      background: rgba(0,188,212,0.08); 
+      color:var(--accent); 
+      padding:4px 8px; 
+      border-radius:8px; 
+      font-size:0.78rem; 
+      transition: all 0.3s ease;
+    }
+    
+    .tags span:hover {
+      background: rgba(0,188,212,0.15);
+      transform: translateY(-2px);
+    }
 
     /* project links row */
     .project-links a{ 
@@ -285,7 +454,11 @@
     .contact-form input:focus, .contact-form textarea:focus {
       border-color: var(--accent);
     }
-    body.light-mode .contact-form input, body.light-mode .contact-form textarea { border:1px solid rgba(0,0,0,0.08); background:#fff; color:var(--text); }
+    body.light-mode .contact-form input, body.light-mode .contact-form textarea { 
+      border:1px solid rgba(0,0,0,0.08); 
+      background:#fff; 
+      color:var(--text); 
+    }
 
     /* submit */
     .submit-btn{ align-self:flex-start; }
@@ -318,11 +491,30 @@
     .site-footer{ text-align:center; padding:14px; color:var(--muted); font-size:0.85rem; }
 
     /* small screens adjustments */
+    @media (max-width:920px){
+      .quick-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+      }
+      
+      .tech-icons {
+        gap: 10px;
+      }
+      
+      .tech-icons i {
+        font-size: 1.5rem;
+      }
+    }
+
     @media (max-width:620px){
       .profile-pic{ width:86px; height:86px; }
       .grid-2{ grid-template-columns: 1fr; }
       .section-2{ padding:1.2rem; }
       .project-thumb{ height:120px; }
+      .quick-stats {
+        grid-template-columns: repeat(3, 1fr);
+        margin: 1rem 0;
+      }
     }
 
     /* subtle animated gradient */
@@ -528,6 +720,22 @@
         <div class="typed-wrap"><span id="typed-text" aria-hidden="true"></span></div>
         <p class="location"><i class="fas fa-map-marker-alt"></i> Mehsana, India</p>
 
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+          <div class="stat">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">4</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">100+</div>
+            <div class="stat-label">GitHub Contributions</div>
+          </div>
+        </div>
+
         <div class="social-links">
           <a href="https://twitter.com/OshekherO" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
           <a href="https://www.linkedin.com/in/oshekher" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -536,6 +744,28 @@
           <a href="https://www.facebook.com/Oshekher/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
           <a href="https://bsky.app/profile/oshekharo.bsky.social" target="_blank" aria-label="Bluesky"><i class="fas fa-cloud"></i></a>
           <a href="https://t.me/DuskDrifter" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="tech-stack">
+          <h3>Tech Stack</h3>
+          <div class="tech-icons">
+            <i class="fab fa-python" title="Python"></i>
+            <i class="fab fa-js" title="JavaScript"></i>
+            <i class="fab fa-html5" title="HTML5"></i>
+            <i class="fab fa-css3-alt" title="CSS3"></i>
+            <i class="fab fa-git-alt" title="Git"></i>
+            <i class="fab fa-cloudflare" title="Cloudflare"></i>
+          </div>
+        </div>
+
+        <!-- Current Focus -->
+        <div class="current-focus">
+          <h3>Currently Learning</h3>
+          <p>Cloud Architecture & DevOps</p>
+          <div class="progress-bar">
+            <div class="progress" style="width: 65%"></div>
+          </div>
         </div>
 
         <a class="btn resume-btn" href="resume.pdf" download aria-label="Download Resume"><i class="fas fa-download"></i> Resume</a>
@@ -925,6 +1155,14 @@
           parentCard.appendChild(errorMsg);
         });
       });
+      
+      // ---- Animate progress bar on load ----
+      setTimeout(() => {
+        const progressBar = document.querySelector('.progress');
+        if (progressBar) {
+          progressBar.style.width = '65%';
+        }
+      }, 500);
     });
   </script>
 </body>
