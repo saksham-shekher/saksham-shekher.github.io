@@ -1,20 +1,25 @@
-// Theme toggle persistence
+// ---- Theme persistence ----
 const body = document.body;
 const toggleBtn = document.getElementById('theme-toggle');
-const icon = toggleBtn.querySelector('i');
+const toggleIcon = toggleBtn.querySelector('i');
 
+// initialize theme from localStorage
 const savedTheme = localStorage.getItem('portfolio-theme');
 if (savedTheme === 'light') {
   body.classList.add('light-mode');
-  icon.className = 'fas fa-moon';
+  toggleIcon.className = 'fas fa-moon';
+} else {
+  toggleIcon.className = 'fas fa-sun';
 }
+
+// toggle handler
 toggleBtn.addEventListener('click', () => {
   const isLight = body.classList.toggle('light-mode');
   localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
-  icon.className = isLight ? 'fas fa-moon' : 'fas fa-sun';
+  toggleIcon.className = isLight ? 'fas fa-moon' : 'fas fa-sun';
 });
 
-// Typed.js intro
+// ---- Typed.js intro ----
 document.addEventListener('DOMContentLoaded', () => {
   if (window.Typed) {
     new Typed('#typed-text', {
@@ -22,11 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
       typeSpeed: 55,
       backSpeed: 30,
       backDelay: 1400,
+      startDelay: 300,
       loop: true
     });
   }
 
-  // Scroll reveal
+  // ---- ScrollReveal for cards ----
   if (window.ScrollReveal) {
     ScrollReveal().reveal('.card, .project-card', {
       distance: '24px',
@@ -34,35 +40,44 @@ document.addEventListener('DOMContentLoaded', () => {
       easing: 'cubic-bezier(.2,.8,.2,1)',
       origin: 'bottom',
       interval: 80,
+      reset: false
     });
   }
 
-  // Back-to-top button
+  // ---- Back to top button ----
   const topBtn = document.getElementById('top-btn');
   window.addEventListener('scroll', () => {
-    topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    topBtn.classList.toggle('show', window.scrollY > 320);
+    topBtn.style.display = window.scrollY > 320 ? 'flex' : 'none';
   });
   topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // Formspree feedback
+  // ---- Formspree form handling (tiny UX) ----
   const form = document.getElementById('contact-form');
   const note = document.querySelector('.form-note');
   form.addEventListener('submit', (e) => {
+    // Let Formspree handle the submission — but provide UX feedback:
+    note.textContent = 'Sending…';
+    // After submit, Formspree will redirect or show result. Use the fetch approach to give inline feedback:
     e.preventDefault();
-    note.textContent = 'Sending...';
+    const data = new FormData(form);
     fetch(form.action, {
       method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' },
-    })
-      .then((res) => {
-        if (res.ok) {
-          note.textContent = 'Message sent successfully!';
-          form.reset();
-        } else {
-          note.textContent = 'Error sending message.';
-        }
-      })
-      .catch(() => (note.textContent = 'Network error. Try again.'));
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        note.textContent = 'Thanks! Message sent.';
+        form.reset();
+      } else {
+        response.json().then(data => {
+          note.textContent = data.error || 'Oops — there was a problem. Try again later.';
+        }).catch(() => {
+          note.textContent = 'Oops — there was a problem. Try again later.';
+        });
+      }
+    }).catch(() => {
+      note.textContent = 'Network error. Please try again.';
+    });
   });
 });
