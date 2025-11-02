@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Saksham Shekher — Portfolio</title>
-  <meta name="description" content="Saksham Shekher — web developer, Python, and cloud explorer. Projects, experience, and certifications." />
+  <meta name="description" content="Saksham Shekher — web developer, Python, cloud explorer. Projects, experience, and certifications." />
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
@@ -28,9 +28,10 @@
 
   <div class="grid-2">
 
-    <!-- LEFT PANEL -->
+    <!-- LEFT: header panel -->
     <header class="section-1" role="banner">
       <div class="header-inner">
+
         <i class="fas fa-code fa-4x white" aria-hidden="true"></i>
         <h1 class="name">Saksham Shekher</h1>
         <div class="typed-wrap"><span id="typed-text" aria-hidden="true"></span></div>
@@ -42,34 +43,36 @@
           <a href="https://github.com/saksham-shekher" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
         </div>
 
-        <a class="btn resume-btn" href="resume.pdf" download><i class="fas fa-download"></i> Resume</a>
+        <a class="btn resume-btn" href="resume.pdf" download aria-label="Download Resume"><i class="fas fa-download"></i> Resume</a>
       </div>
     </header>
 
-    <!-- RIGHT PANEL -->
+    <!-- RIGHT: main content -->
     <main class="section-2" role="main">
-      <section id="about" class="block card">
-        <h2><i class="fas fa-user"></i> About</h2>
+      <section id="about" class="block card" aria-labelledby="about-heading">
+        <h2 id="about-heading"><i class="fas fa-user"></i> About</h2>
         <p>
           I’m an <strong>MCA student</strong> focused on web development, Python, and cloud technologies.
           I build responsive, API-integrated applications and enjoy creating minimal, usable interfaces.
+          I’m currently exploring serverless architecture, DevOps basics, and AI-assisted web tooling.
         </p>
         <p>
-          Currently exploring <strong>serverless architecture</strong>, <strong>DevOps fundamentals</strong>, and <strong>AI-assisted automation</strong>.
-          I love prototyping fast, testing with real APIs, and deploying clean, production-ready interfaces.
+          Learning approach: prototype quickly → test with real APIs → publish & iterate.  I contribute to
+          open-source experiments and write short technical notes while practicing full-stack projects.
         </p>
       </section>
 
       <section id="experience" class="block">
         <h2><i class="fas fa-briefcase"></i> Experience</h2>
-        <article class="card exp-card">
+
+        <article class="card exp-card" aria-labelledby="exp1-title">
           <div class="card-header">
-            <h3>CodeClause — Web Developer Intern</h3>
+            <h3 id="exp1-title">CodeClause — Web Developer Intern</h3>
             <time class="date">Sep 2025</time>
           </div>
           <ul>
             <li>Built a real-time Weather App using OpenWeatherMap API.</li>
-            <li>Developed a responsive shopping cart using HTML, JS & Bootstrap.</li>
+            <li>Developed responsive Shopping Cart with dynamic item management (HTML/JS/Bootstrap).</li>
           </ul>
         </article>
       </section>
@@ -92,44 +95,61 @@
 
       <section id="skills" class="block card">
         <h2><i class="fas fa-tools"></i> Skills</h2>
-        <p><strong>Languages:</strong> Python, Java, HTML, CSS, SQL, Bash</p>
-        <p><strong>Libraries:</strong> Pandas, NumPy, Matplotlib, Bootstrap, Tailwind</p>
-        <p><strong>Tools:</strong> Git, VS Code, MySQL</p>
-        <p><strong>Soft Skills:</strong> Problem Solving, Communication, Teamwork</p>
+        <div class="skill-list">
+          <p><strong>Languages:</strong> Python, Java, HTML, CSS, SQL, Bash</p>
+          <p><strong>Libraries:</strong> Pandas, NumPy, Matplotlib, Bootstrap, Tailwind</p>
+          <p><strong>Tools:</strong> Git, VS Code, MySQL</p>
+          <p><strong>Soft:</strong> Problem Solving, Communication, Teamwork</p>
+        </div>
       </section>
 
       <section id="projects" class="block">
         <h2><i class="fas fa-project-diagram"></i> Projects</h2>
         <div class="projects">
+          <!-- Project 1 -->
           <article class="project-card card">
             <img class="project-thumb" src="assets/neubrutalism-thumb.png" alt="Neubrutalism CSS preview" loading="lazy">
-            <h3>Neubrutalism CSS</h3>
-            <p>Reusable CSS library inspired by brutalist design.</p>
-            <div class="tags"><span>CSS</span><span>Open Source</span></div>
-            <div class="project-links">
-              <a href="https://neubrutalism.dpdns.org/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
-              <a href="https://github.com/OshekharO" target="_blank"><i class="fab fa-github"></i> Code</a>
+            <div class="project-body">
+              <h3>Neubrutalism CSS</h3>
+              <p>Reusable CSS library inspired by brutalist/neubrutalist design for quick UI building.</p>
+              <div class="tags">
+                <span>CSS</span><span>Design</span><span>Open-Source</span>
+              </div>
+              <div class="project-links">
+                <a href="https://neubrutalism.dpdns.org/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                <a href="https://github.com/OshekharO" target="_blank"><i class="fab fa-github"></i> Code</a>
+              </div>
             </div>
           </article>
 
+          <!-- Project 2 -->
           <article class="project-card card">
             <img class="project-thumb" src="assets/indexer-thumb.png" alt="Web Indexer preview" loading="lazy">
-            <h3>Web Indexer</h3>
-            <p>Fast indexing and metadata crawler using Cloudflare Workers.</p>
-            <div class="tags"><span>Cloudflare</span><span>JS</span><span>Serverless</span></div>
-            <div class="project-links">
-              <a href="https://indexer.is-an.app/" target="_blank"><i class="fas fa-external-link-alt"></i> Live</a>
-              <a href="https://github.com/OshekharO" target="_blank"><i class="fab fa-github"></i> Repo</a>
+            <div class="project-body">
+              <h3>Web Indexer</h3>
+              <p>Fast web indexing demo using Cloudflare Workers and JavaScript.</p>
+              <div class="tags">
+                <span>Cloudflare</span><span>JS</span><span>Serverless</span>
+              </div>
+              <div class="project-links">
+                <a href="https://indexer.is-an.app/" target="_blank"><i class="fas fa-external-link-alt"></i> Live</a>
+                <a href="https://github.com/OshekharO" target="_blank"><i class="fab fa-github"></i> Repo</a>
+              </div>
             </div>
           </article>
 
+          <!-- Project 3 -->
           <article class="project-card card">
             <img class="project-thumb" src="assets/workers-blog-thumb.png" alt="Cloudflare Workers Blog preview" loading="lazy">
-            <h3>Cloudflare Workers Blog</h3>
-            <p>AI-assisted developer blog using Cloudflare Workers.</p>
-            <div class="tags"><span>AI</span><span>Edge</span><span>JS</span></div>
-            <div class="project-links">
-              <a href="https://github.com/OshekharO/Cloudflare-Workers-Blog" target="_blank"><i class="fab fa-github"></i> Repo</a>
+            <div class="project-body">
+              <h3>Cloudflare Workers Blog</h3>
+              <p>AI-assisted developer blog deployed to Cloudflare Workers (edge runtime).</p>
+              <div class="tags">
+                <span>Edge</span><span>AI</span><span>JS</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/OshekharO/Cloudflare-Workers-Blog" target="_blank"><i class="fab fa-github"></i> Repo</a>
+              </div>
             </div>
           </article>
         </div>
@@ -153,9 +173,11 @@
         </div>
       </section>
 
-      <section id="contact" class="block card">
-        <h2><i class="fas fa-envelope"></i> Contact</h2>
-        <p>Send a message — I usually reply within a few days.</p>
+      <section id="contact" class="block card" aria-labelledby="contact-heading">
+        <h2 id="contact-heading"><i class="fas fa-envelope"></i> Contact</h2>
+        <p>If you'd like to get in touch, send a message — I usually reply within a few days.</p>
+
+        <!-- Formspree contact form -->
         <form id="contact-form" action="https://formspree.io/f/mrgvgrrk" method="POST" class="contact-form">
           <label for="name">Name</label>
           <input id="name" name="name" type="text" required>
@@ -168,6 +190,7 @@
 
           <input type="hidden" name="_subject" value="Portfolio Contact">
           <button type="submit" class="btn submit-btn"><i class="fas fa-paper-plane"></i> Send</button>
+
           <p class="form-note" aria-live="polite"></p>
         </form>
       </section>
@@ -176,10 +199,11 @@
 
   <button id="top-btn" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-  <footer class="site-footer">
+  <footer class="site-footer" role="contentinfo">
     <p>© 2025 Saksham Shekher</p>
   </footer>
 
+  <!-- main script -->
   <script src="script.js" defer></script>
 </body>
 </html>
