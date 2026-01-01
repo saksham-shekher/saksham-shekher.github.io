@@ -642,13 +642,13 @@
       gap: 1rem;
     }
     
-    .github-streak-img, .github-stats-img {
+    .github-stats-img {
       width: 100%;
       border-radius: 8px;
       transition: transform 0.3s ease;
     }
     
-    .github-streak-img:hover, .github-stats-img:hover {
+    .github-stats-img:hover {
       transform: scale(1.02);
     }
     
@@ -793,26 +793,12 @@
         <div class="github-stats-grid">
           <article class="github-stat-card">
             <div class="stat-header">
-              <i class="fas fa-fire"></i>
-              <h3 class="stat-title">GitHub Streak</h3>
-            </div>
-            <img 
-              src="https://github-readme-streak-stats.herokuapp.com/?user=OshekharO&theme=vision-friendly-dark&hide_border=false" 
-              alt="GitHub Streak Stats" 
-              class="github-streak-img"
-              loading="lazy"
-            >
-            <p class="stats-note">Current contribution streak and activity</p>
-          </article>
-          
-          <article class="github-stat-card">
-            <div class="stat-header">
               <i class="fas fa-chart-bar"></i>
               <h3 class="stat-title">GitHub Stats</h3>
             </div>
             <img 
-              src="https://github-readme-stats.vercel.app/api?username=OshekharO&show_icons=true&theme=vision-friendly-dark&hide_border=false" 
-              alt="GitHub Stats" 
+              src="https://git-hub-stats-card-generator.vercel.app/api/svg?username=OshekharO&theme=dark&chart=bars" 
+              alt="OshekharO's GitHub stats" 
               class="github-stats-img"
               loading="lazy"
             >
@@ -822,11 +808,11 @@
           <article class="github-stat-card">
             <div class="stat-header">
               <i class="fas fa-code"></i>
-              <h3 class="stat-title">Top Languages</h3>
+              <h3 class="stat-title">Language Stats</h3>
             </div>
             <img 
-              src="https://github-readme-stats.vercel.app/api/top-langs/?username=OshekharO&layout=compact&theme=vision-friendly-dark&hide_border=false" 
-              alt="Top Languages" 
+              src="https://git-hub-stats-card-generator.vercel.app/api/svg?username=OshekharO&type=languages&theme=dark&chart=bars" 
+              alt="OshekharO's Language stats" 
               class="github-stats-img"
               loading="lazy"
             >
@@ -1042,19 +1028,15 @@
 
     // Function to update GitHub stats theme
     function updateGitHubStatsTheme(isLight) {
-      const theme = isLight ? 'default' : 'vision-friendly-dark';
-      
-      // Update streak stats
-      const streakImg = document.querySelector('.github-streak-img');
-      streakImg.src = `https://github-readme-streak-stats.herokuapp.com/?user=OshekharO&theme=${theme}&hide_border=false`;
+      const theme = isLight ? 'light' : 'dark';
       
       // Update general stats
       const statsImg = document.querySelectorAll('.github-stats-img')[0];
-      statsImg.src = `https://github-readme-stats.vercel.app/api?username=OshekharO&show_icons=true&theme=${theme}&hide_border=false`;
+      statsImg.src = `https://git-hub-stats-card-generator.vercel.app/api/svg?username=OshekharO&theme=${theme}&chart=bars`;
       
-      // Update top languages
+      // Update language stats
       const langImg = document.querySelectorAll('.github-stats-img')[1];
-      langImg.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=OshekharO&layout=compact&theme=${theme}&hide_border=false`;
+      langImg.src = `https://git-hub-stats-card-generator.vercel.app/api/svg?username=OshekharO&type=languages&theme=${theme}&chart=bars`;
     }
 
     // ---- Typed.js intro ----
@@ -1140,7 +1122,7 @@
       });
       
       // ---- GitHub Stats Loading ----
-      const githubImages = document.querySelectorAll('.github-streak-img, .github-stats-img');
+      const githubImages = document.querySelectorAll('.github-stats-img');
       githubImages.forEach(img => {
         img.addEventListener('load', function() {
           this.style.opacity = '1';
